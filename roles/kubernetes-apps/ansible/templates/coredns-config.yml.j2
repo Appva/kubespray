@@ -16,7 +16,7 @@ data:
 {# Resolve external requests to the internal Nginx #}
 {% if appva_public_domain is defined %}
         template IN ANY {{ appva_public_domain }} {
-          answer "{{ .Name }} 60 IN CNAME ingress-nginx.ingress-nginx.svc.cluster.local."
+          answer "{{ '{{' }} .Name }} 60 IN CNAME ingress-nginx.ingress-nginx.svc.cluster.local."
         }
 {% endif %}
         kubernetes {{ dns_domain }} in-addr.arpa ip6.arpa {
