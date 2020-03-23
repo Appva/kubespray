@@ -12,6 +12,13 @@ data:
         errors
         health
         ready
+{# APPVA PATCH: Workaround for https://github.com/Appva/hosting/issues/116 #}
+{# Resolve external requests to the internal Nginx #}
+{% if appva_public_domain is defined %}
+        template IN ANY {{ appva_public_domain }} {
+          answer "{{ .Name }} 60 IN CNAME ingress-nginx.ingress-nginx.svc.cluster.local."
+        }
+{% endif %}
         kubernetes {{ dns_domain }} in-addr.arpa ip6.arpa {
           pods insecure
 {% if enable_coredns_k8s_endpoint_pod_names %}
